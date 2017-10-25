@@ -13,20 +13,20 @@ def outer(func):
 
 
 class Login(views.View):
-    def dispatch(self, request, *args, **kwargs):
-        print(111)
-        # 此处get,post方法还没执行
-        # 调用父类中的dispatch方法用于分发到方法函数
-        ret = super(Login, self).dispatch(request, *args, **kwargs)
-        # 此处get,post方法已执行完
-        print(222)
-        return ret
+    # def dispatch(self, request, *args, **kwargs):
+    #     print(111)
+    #     # 此处get,post方法还没执行
+    #     # 调用父类中的dispatch方法用于分发到方法函数
+    #     ret = super(Login, self).dispatch(request, *args, **kwargs)
+    #     # 此处get,post方法已执行完
+    #     print(222)
+    #     return ret
 
     def get(self, req, *args, **kwargs):
         return render(req, 'login.html')
 
     # 使用django的method_decorator方法调用装饰器
-    @method_decorator(outer)
+    # @method_decorator(outer)
     def post(self, req, *args, **kwargs):
         username = req.POST.get("username", None)
         password = req.POST.get("password", None)
@@ -57,14 +57,6 @@ class Login(views.View):
 #         return render(req, 'login.html')
 
 
-def index(req):
-    # username = req.COOKIES.get('username') 获取不加密cookie
-    username = req.get_signed_cookie('username')
-    if username:
-        return render(req, "index.html", {"username": username})
-    else:
-        return redirect('/login')
-
 
 def logout(request):
     request.session.clear()
@@ -82,7 +74,7 @@ def auth(func):
     return inner
 
 
-@auth
+# @auth
 def index(request):
     current_user = request.session.get('username')
     return render(request, 'index.html', {'username': current_user})
