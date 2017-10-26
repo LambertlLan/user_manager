@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^index/', views.index),
     url(r'^logout/', views.logout),
     url(r'^classes/', views.handle_classes),
+    url(r'^$', views.index),
 ]

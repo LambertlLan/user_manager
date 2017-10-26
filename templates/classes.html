@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <table border="1"  cellspacing="0">
+        <tr>
+            <th>班级id</th>
+            <th>班级名称</th>
+            <th>操作</th>
+        </tr>
+        {% for i in classes %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.caption }}</td>
+                <td>
+                    <a href="">修改</a>
+                    <a href="">删除</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
