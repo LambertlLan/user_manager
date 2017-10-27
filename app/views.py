@@ -51,11 +51,23 @@ def index(request):
     return render(request, 'index.html', {'username': session, 'title': ' 首页'})
 
 
-@auth
-def handle_classes(request):
-    current_user = request.session.get('username')
-    classes = models.Classes.objects.all()
-    return render(request, 'classes.html', {'username': current_user, 'classes': classes})
+@method_decorator(auth, name="dispatch")
+class HandleClasses(views.View):
+    def get(self, request, *args, **kwargs):
+        current_user = request.session.get('username')
+        classes = models.Classes.objects.all()
+        return render(request, 'classes.html', {'username': current_user, 'classes': classes})
+
+    def post(self, request, *args, **kwargs):
+        import json
+        response_dict = {'status': True, 'error': None, 'data': None}
+        caption = request.POST.get('caption', None)
+        if caption:
+            models.Classes.objects.create(caption=caption)
+        else:
+            response_dict['status'] = False
+            response_dict['error'] = '内容不能为空'
+        return HttpResponse(json.dumps(response_dict),content_type="application/json")
 
 
 @auth

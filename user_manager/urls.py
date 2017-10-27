@@ -22,6 +22,6 @@ urlpatterns = [
     url(r'^login/', views.Login.as_view()),
     url(r'^index/', views.index),
     url(r'^logout/', views.logout),
-    url(r'^classes/', views.handle_classes),
+    url(r'^classes', views.HandleClasses.as_view()),
     url(r'^$', views.index),
 ]

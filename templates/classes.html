@@ -1,6 +1,8 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <table border="1"  cellspacing="0">
+    <input id="textClass" type="text">
+    <input id="subClass" type="button" value="添加">
+    <table border="1" cellspacing="0">
         <tr>
             <th>班级id</th>
             <th>班级名称</th>
@@ -17,4 +19,19 @@
             </tr>
         {% endfor %}
     </table>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(function () {
+            $.ajaxSetup({
+                data: {'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            });
+            $("#subClass").click(function () {
+                var name = $("#textClass").val();
+                $.post("/classes", {caption: name}, function (res) {
+                    console.log(res)
+                })
+            })
+        })
+    </script>
 {% endblock %}
